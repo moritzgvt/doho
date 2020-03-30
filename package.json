@@ -1,6 +1,6 @@
 {
   "name": "doho",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Manage wordpress websites inside docker containers from CLI.",
   "main": "index.js",
   "scripts": {
