@@ -1,38 +1,48 @@
 #! /usr/bin/env node
-const chalk = require('chalk');
+const { store } = require('./store/store');
+const { actions } = require('./actions/actions')
 
-const store = require('./store/store');
-const website = require('./services/website');
-const phpmyadmin = require('./services/pma');
-
-const handleMutation = (inquiry) => {
-  switch (inquiry.mutation) {
-    case 'set-path':
-      store.setPath(inquiry.payload);
-      console.log(
-        chalk.green('Successfully changed path to ' + 
-          chalk.underline( store.getPath() ) + 
-        '.')
-      );
-      break;
-    case 'get-path':
-      const res = store.getPath();
-      console.log(res);
-      break;
-  } 
+const start = async () => {
+  const project = await store.project();
+  actions.compose.up(project);
 }
 
-const handleAction = (inquiry) => {
-  switch (inquiry.service) {
-    case 'website':
-      website.handle(inquiry);
-      break;
-    case 'phpmyadmin':
-      phpmyadmin.handle(inquiry);
-      break;
+const stop = async () => {
+  const project = await store.project();
+  actions.compose.down(project);
+}
 
+const create = async () => {
+  const inq = await store.inq();
+  const path = inq.payload[3]
+    ? inq.payload[3]
+    : await store.path.get();
+
+  if (!path) { return; }
+
+  const newProject = {
+    name: inq.payload[1],
+    type: inq.payload[2],
+    path: path + inq.payload[1]
   }
+
+  await store.create(newProject);
 }
 
-exports.action = handleAction;
-exports.mutation = handleMutation;
+const clear = async () => {
+  const inq = await store.inq();
+  await store.clear[inq.payload[1]]();
+}
+
+const path = async () => {
+  const inq = await store.inq();
+  await store.path[inq.payload[1]]();
+}
+
+exports.actions = {
+  start: start,
+  stop: stop,
+  create: create,
+  clear: clear,
+  path: path 
+}

@@ -1,16 +1,10 @@
 #! /usr/bin/env node
 const doho = () => {
-  const handle = require('./handler.js');
-  const object = require('./store/object.js');
-  const inquiry = object.generate();
+  const inquiry = require('./store/inquiry');
+  const { actions } = require('./handler');
 
-  switch (inquiry.type) {
-    case 'action':
-      handle.action(inquiry);
-      break;
-    default:
-      handle.mutation(inquiry);
-      break;
-  }
+  const inq = inquiry.generate();
+
+  actions[inq.action]();
 }
 exports.doho = doho;
