@@ -204,22 +204,6 @@ const clearProjects = async () => {
   return response;
 }
 
-// User funcitons
-const showProject = async (custom=undefined) => {
-  if (!custom) {
-
-  }
-
-  await getProject(custom)
-    .then((res) => {
-      console.log('\n');
-      console.log(res);
-    })
-    .catch((err) => {
-      return;
-    })
-}
-
 exports.store = {
   config: config,
   inq: getInquiry,
@@ -232,9 +216,5 @@ exports.store = {
   create: createProject,
   clear: {
     projects: clearProjects
-  },
-  show: {
-    project: showProject
   }
-  
 }

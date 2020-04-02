@@ -39,16 +39,10 @@ const clear = async () => {
   await store.clear[inq.payload[1]]();
 }
 
-const show = async () => {
-  const inq = await store.inq();
-  await store.show  [inq.payload[1]](inq.payload[2]);
-}
-
 exports.actions = {
   start: start,
   stop: stop,
   create: create,
   clear: clear,
-  path: path, 
-  show: show
+  path: path
 }
