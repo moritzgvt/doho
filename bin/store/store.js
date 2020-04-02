@@ -7,6 +7,7 @@ const { print } = require('../utils/log');
 
 const config = new Configstore(packageConfig.name, {
   default_path: '',
+  current_project: '',
   inq: {},
   projects: []
 });
@@ -53,6 +54,26 @@ const getInquiry = async () => {
   return response;
 }
 
+const getCurrentProject = async () => {
+  const promise = new Promise((resolve, reject) => {
+    const currentProject = config.get('current_project');
+    currentProject
+      ? resolve(currentProject)
+      : reject('There\'s currently no project running!')
+  });
+
+  const response = await promise
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      print(err, 'error', 'Error while getting currentProject');
+      return;
+    })
+
+    return response;
+}
+
 const getProject = async (target=undefined) => {
   const searched = target ? target : config.get('inq').payload[1];
   const projects = config.get('projects');
@@ -75,7 +96,7 @@ const getProject = async (target=undefined) => {
     })
     .catch((err) => {
       print(err, 'error', 'Error while getting project');
-      return err;
+      return;
     });
   
   return response;
@@ -142,11 +163,40 @@ const setPath = async () => {
   return response;
 }
 
+const setCurrentProject = async (payload) => {
+  const promise = new Promise((resolve, reject) => {
+    config.delete('current_project');
+    config.set('current_project', payload);
+
+    const currentProject = config.get('current_project');
+
+    currentProject === payload
+      ? resolve(currentProject)
+      : reject('Couldn\'t set current_project')
+  });
+
+  const response = await promise
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      print(err, 'error', 'Error while setting current project')
+      return err;
+    })
+  
+    return response;
+}
+
 const updateInq = async (newInquiry) => {
   const promise = new Promise((resolve, reject) => {
     config.delete('inq');
     config.set('inq', newInquiry);
-    resolve('Inquiry set!');
+
+    const inq = config.get('inq');
+
+    inq
+      ? resolve('New Inquiry set!')
+      : reject('Could not set new inquiry')
   });
 
   const response = await promise
@@ -241,14 +291,27 @@ const showProject = async (target=undefined) => {
     return;
   }
 
-  await getProject(target)
-    .then((res) => {
-      print(res, 'success', 'This is the project ' + target + ':');
-    })
-    .catch((err) => {
-      print(err, 'error');
-      return;
-    })
+  if (target) {
+    await getProject(target)
+      .then((res) => {
+        print(res, 'success', 'This is the project ' + target + ':');
+      })
+      .catch((err) => {
+        print(err, 'error');
+        return;
+      })
+    return;
+  }
+
+  const currentProject = await getCurrentProject();
+
+  if (currentProject) {
+    await getProject(currentProject)
+      .then((res) => {
+          print(res, 'success', 'This is the current running project');
+        return;
+      })
+  }
 }
 
 const showPath = async (target=undefined) => {
@@ -355,5 +418,13 @@ exports.store = {
     project: showProject,
     path: showPath,
     type: showType
+  },
+  isolated: {
+    set: {
+      currentProject: setCurrentProject
+    },
+    get: {
+      currentProject: getCurrentProject
+    }
   }
 }
