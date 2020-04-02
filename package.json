@@ -1,6 +1,6 @@
 {
   "name": "doho",
-  "version": "0.0.4-fix",
+  "version": "0.0.5",
   "description": "Manage docker-compose projects",
   "keywords": ["project", "manage", "docker-compose", "cli"],
   "main": "index.js",
