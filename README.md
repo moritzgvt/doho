@@ -13,15 +13,14 @@ npm i -g doho
 
 ### Add your first project
 
-To have a `docker-compose` project working, you'll need to set up your projects directory as following.
+Set up your `docker-compose` project directory, like this:
 
-```sh
-# Example project
+```
 ~/path/to/your/projects/my-project
- |— docker-compose.yaml
+  |— docker-compose.yaml
 ```
 
-Then add your project like so:
+Add your project:
 
 ```sh
 doho create my-project docker-compose ~/path/to/your/projects/
