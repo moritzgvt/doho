@@ -140,7 +140,7 @@ const updateInq = async (newInquiry) => {
   return response;
 }
 
-const createProject = async (newProject) => {
+const addProject = async (newProject) => {
   const promise = new Promise((resolve, reject) => {
     const projects = config.get('projects');
     let duplicate;
@@ -224,7 +224,7 @@ exports.store = {
     get: getPath
   },
   project: getProject,
-  create: createProject,
+  add: addProject,
   clear: {
     projects: clearProjects
   }

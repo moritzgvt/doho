@@ -12,7 +12,7 @@ const stop = async () => {
   service.compose.down(project);
 }
 
-const create = async () => {
+const add = async () => {
   const inq = await store.inq();
   const path = inq.payload[3]
     ? inq.payload[3]
@@ -26,7 +26,7 @@ const create = async () => {
     path: path + inq.payload[1]
   }
 
-  await store.create(newProject);
+  await store.add(newProject);
 }
 
 const path = async () => {
@@ -42,7 +42,7 @@ const clear = async () => {
 exports.actions = {
   start: start,
   stop: stop,
-  create: create,
+  add: add,
   clear: clear,
   path: path
 }
