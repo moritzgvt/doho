@@ -85,7 +85,7 @@ doho show project
 # Displays the project object
 doho show project my-project
 
-# Displays all project object
+# Displays all project objects
 doho show project --all
 ```
 
