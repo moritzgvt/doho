@@ -1,6 +1,6 @@
 {
   "name": "doho",
-  "version": "0.0.4",
+  "version": "0.0.4-fix",
   "description": "Manage docker-compose stuff",
   "main": "index.js",
   "scripts": {
