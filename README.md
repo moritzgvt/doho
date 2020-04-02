@@ -23,7 +23,7 @@ Set up your `docker-compose` project directory, like this:
 Add your project:
 
 ```sh
-doho create my-project docker-compose ~/path/to/your/projects/
+doho add my-project docker-compose ~/path/to/your/projects/
 ```
 
 **optionally** you could first set your default projects path and then add the project:
@@ -34,7 +34,7 @@ doho create my-project docker-compose ~/path/to/your/projects/
 doho path set ~/path/to/your/projects/
 
 # Add project with default path
-doho create my-project docker-compose 
+doho add my-project docker-compose 
 ```
 
 ### Start and stop your project
