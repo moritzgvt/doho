@@ -13,7 +13,11 @@
   "bin": {
     "doho": "index.js"
   },
-  "author": "Moritz Gut <hello@moritzgut.de>",
+  "author": {
+    "name": "Moritz Gut",
+    "email": "hello@moritzgut.de",
+    "url": "https://moritzgut.de"
+  },
   "license": "MIT",
   "dependencies": {
     "chalk": "^3.0.0",
