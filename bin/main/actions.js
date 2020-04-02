@@ -1,15 +1,15 @@
 #! /usr/bin/env node
-const { store } = require('./store/store');
-const { actions } = require('./actions/actions')
+const { store } = require('../store/store');
+const { service } = require('./services')
 
 const start = async () => {
   const project = await store.project();
-  actions.compose.up(project);
+  service.compose.up(project);
 }
 
 const stop = async () => {
   const project = await store.project();
-  actions.compose.down(project);
+  service.compose.down(project);
 }
 
 const create = async () => {
@@ -29,14 +29,19 @@ const create = async () => {
   await store.create(newProject);
 }
 
+const path = async () => {
+  const inq = await store.inq();
+  await store.path[inq.payload[1]]();
+}
+
 const clear = async () => {
   const inq = await store.inq();
   await store.clear[inq.payload[1]]();
 }
 
-const path = async () => {
+const show = async () => {
   const inq = await store.inq();
-  await store.path[inq.payload[1]]();
+  await store.show  [inq.payload[1]](inq.payload[2]);
 }
 
 exports.actions = {
@@ -44,5 +49,6 @@ exports.actions = {
   stop: stop,
   create: create,
   clear: clear,
-  path: path 
+  path: path, 
+  show: show
 }

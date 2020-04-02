@@ -1,7 +1,7 @@
 {
   "name": "doho",
   "version": "0.0.3",
-  "description": "Manage wordpress websites inside docker containers from CLI.",
+  "description": "Manage docker-compose stuff",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

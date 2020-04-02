@@ -1,9 +1,9 @@
 #! /usr/bin/env node
 const Configstore = require('configstore');
 const fs = require('fs');
-const packageConfig = require('../../package.json');
 
-const { print } = require('../log');
+const packageConfig = require('../../package.json');
+const { print } = require('../utils/log');
 
 const config = new Configstore(packageConfig.name, {
   default_path: '',
@@ -65,7 +65,7 @@ const getProject = async (custom=undefined) => {
       }
     })
 
-    reject('Project does\'t exist.');
+    reject('Project doesn\'t exist.');
     return;
   });
 
@@ -75,7 +75,7 @@ const getProject = async (custom=undefined) => {
     })
     .catch((err) => {
       print(err, 'error', 'Error while getting project');
-      return;
+      return err;
     });
   
   return response;
@@ -202,7 +202,22 @@ const clearProjects = async () => {
     });
   
   return response;
+}
 
+// User funcitons
+const showProject = async (custom=undefined) => {
+  if (!custom) {
+
+  }
+
+  await getProject(custom)
+    .then((res) => {
+      console.log('\n');
+      console.log(res);
+    })
+    .catch((err) => {
+      return;
+    })
 }
 
 exports.store = {
@@ -218,5 +233,8 @@ exports.store = {
   clear: {
     projects: clearProjects
   },
+  show: {
+    project: showProject
+  }
   
 }

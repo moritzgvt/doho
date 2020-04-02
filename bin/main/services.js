@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 const { exec } = require('child_process');
 
-const { print } = require('../log');
+const { print } = require('../utils/log');
 
 const up = async (project) => {
   const promise = new Promise((resolve, reject) => {
@@ -28,7 +28,7 @@ const up = async (project) => {
       return res;
     })
     .catch((err) => {
-      print(err, 'error', 'Error while starting project' + project.name);
+      print(err.message, 'error', 'Error while starting project ' + project.name);
       return;
     });
   
@@ -60,15 +60,15 @@ const down = async (project) => {
       return res;
     })
     .catch((err) => {
-      print(err, 'error', 'Error while stopping project ' + project.name);
+      print(err.message, 'error', 'Error while stopping project ' + project.name);
       return;
     });
   
   return response;
 }
 
-exports.actions = {
-  'compose': {
+exports.service = {
+  compose: {
     up: up,
     down: down
   }

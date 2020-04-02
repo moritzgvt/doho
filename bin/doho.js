@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 const doho = () => {
   const inquiry = require('./store/inquiry');
-  const { actions } = require('./handler');
+  const { actions } = require('./main/actions');
 
   const inq = inquiry.generate();
 
