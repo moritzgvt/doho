@@ -31,7 +31,7 @@ doho add my-project docker-compose ~/path/to/your/projects/
 ```sh
 # Set the default path to your 
 # mainly used projects folder
-doho path set ~/path/to/your/projects/
+doho set path ~/path/to/your/projects/
 
 # Add project with default path
 doho add my-project docker-compose 
@@ -61,22 +61,14 @@ doho clear projects
 
 <hr>
 
-### path
+### set
 
-#### set 
+#### path 
 
 Sets a new default path
 
 ```sh
-doho path set ~/your/path
-```
-
-#### get 
-
-Returns the default path
-
-```sh
-doho path get
+doho set path ~/your/path
 ```
 
 <hr>
@@ -85,10 +77,44 @@ doho path get
 
 #### project 
 
-Shows the passed project
+```sh
+# Displays the currently 
+# active project object
+doho show project
+
+# Displays the project object
+doho show project my-project
+
+# Displays all project object
+doho show project --all
+```
+
+### path
 
 ```sh
-doho show project my-project
+# Displays the currently
+# active projects path
+doho show path
+
+# Displays the project path
+doho show path my-project
+
+# Displays the paths of all projects
+doho show path --all
+```
+
+### path
+
+```sh
+# Displays the currently
+# active projects type
+doho show type
+
+# Displays the project type
+doho show type my-project
+
+# Displays the types of all projects
+doho show type --all
 ```
 
 ## License

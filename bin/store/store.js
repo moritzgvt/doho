@@ -308,7 +308,7 @@ const showProject = async (target=undefined) => {
   if (currentProject) {
     await getProject(currentProject)
       .then((res) => {
-          print(res, 'success', 'This is the current running project');
+          print(res, 'success', 'This is the currently running project');
         return;
       })
   }
@@ -360,6 +360,16 @@ const showPath = async (target=undefined) => {
       })
     return;
   }
+
+  const currentProject = await getCurrentProject();
+
+  if (currentProject) {
+    await getProject(currentProject)
+      .then((res) => {
+          print(res.path, 'success', 'This is the path of the currently running project');
+        return;
+      })
+  }
 }
 
 const showType = async (target) => {
@@ -395,6 +405,16 @@ const showType = async (target) => {
         return;
       })
       return;
+  }
+
+  const currentProject = await getCurrentProject();
+
+  if (currentProject) {
+    await getProject(currentProject)
+      .then((res) => {
+          print(res.type, 'success', 'This is the type of the currently running project');
+        return;
+      })
   }
 }
 
