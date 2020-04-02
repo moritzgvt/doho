@@ -7,22 +7,22 @@ const printToConsole = (message, type, title=undefined) => {
 
   switch (type) { 
     case 'error':
-      console.log(
-        chalk.black.bgRed((title ? '  ' + title + '  ' : '  Error!  ') + '\n\n'),
-        chalk.red(message)
-      )
+        console.log(
+          chalk.black.bgRed((title ? '  ' + title + '  ' : '  Error!  ') + '\n')
+        );
+        console.log(message);
       break;
     case 'success':
-      console.log(
-        chalk.black.bgGreen((title ? '  ' + title + '  ' : '  Success!  ') + '\n\n'),
-        chalk.green(message)
-      )
+        console.log(
+          chalk.black.bgGreen((title ? '  ' + title + '  ' : '  Success!  ') + '\n'),
+        );
+        console.log(message);
       break;
     default:
-      console.log(
-        chalk.black.bgYellow((title ? '  ' + title + '  ' : '  Hello from doho!  ') + '\n\n'),
-        chalk.yellow(message)
-      )
+        console.log(
+          chalk.black.bgYellow((title ? '  ' + title + '  ' : '  Hello from doho!  ') + '\n')
+        );
+        console.log(message);
       break;
   } 
 

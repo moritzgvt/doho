@@ -2,6 +2,7 @@
 const { exec } = require('child_process');
 
 const { print } = require('../utils/log');
+const { store } = require('../store/store');
 
 const up = async (project) => {
   const promise = new Promise((resolve, reject) => {
@@ -31,6 +32,8 @@ const up = async (project) => {
       print(err.message, 'error', 'Error while starting project ' + project.name);
       return;
     });
+
+  await store.isolated.set.currentProject(project.name);
   
   return response;
 }
@@ -63,6 +66,8 @@ const down = async (project) => {
       print(err.message, 'error', 'Error while stopping project ' + project.name);
       return;
     });
+
+    await store.isolated.set.currentProject('');
   
   return response;
 }
