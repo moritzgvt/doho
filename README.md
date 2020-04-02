@@ -63,7 +63,7 @@ doho clear projects
 
 ### set
 
-#### path 
+#### path
 
 Sets a new default path
 
@@ -75,7 +75,7 @@ doho set path ~/your/path
 
 ### show
 
-#### project 
+#### project
 
 ```sh
 # Displays the currently 
@@ -89,7 +89,7 @@ doho show project my-project
 doho show project --all
 ```
 
-### path
+#### path
 
 ```sh
 # Displays the currently
@@ -103,7 +103,7 @@ doho show path my-project
 doho show path --all
 ```
 
-### path
+#### type
 
 ```sh
 # Displays the currently
