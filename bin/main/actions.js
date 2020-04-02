@@ -29,9 +29,14 @@ const add = async () => {
   await store.add(newProject);
 }
 
-const path = async () => {
+const set = async () => {
   const inq = await store.inq();
-  await store.path[inq.payload[1]]();
+  await store.set[inq.payload[1]](inq.payload[2]);
+}
+
+const get = async () => {
+  const inq = await store.inq();
+  await store.get[inq.payload[1]](inq.payload[2]);
 }
 
 const clear = async () => {
@@ -39,10 +44,17 @@ const clear = async () => {
   await store.clear[inq.payload[1]]();
 }
 
+const show = async () => {
+  const inq = await store.inq();
+  await store.show[inq.payload[1]](inq.payload[2]);
+}
+
 exports.actions = {
   start: start,
   stop: stop,
   add: add,
+  set: set,
+  get: get,
   clear: clear,
-  path: path
+  show: show
 }

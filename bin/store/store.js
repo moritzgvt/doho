@@ -7,6 +7,7 @@ const { print } = require('../utils/log');
 
 const config = new Configstore(packageConfig.name, {
   default_path: '',
+  current_project: '',
   inq: {},
   projects: []
 });
@@ -53,8 +54,28 @@ const getInquiry = async () => {
   return response;
 }
 
-const getProject = async (custom=undefined) => {
-  const searched = custom ? custom : config.get('inq').payload[1];
+const getCurrentProject = async () => {
+  const promise = new Promise((resolve, reject) => {
+    const currentProject = config.get('current_project');
+    currentProject
+      ? resolve(currentProject)
+      : reject('There\'s currently no project running!')
+  });
+
+  const response = await promise
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      print(err, 'error', 'Error while getting currentProject');
+      return;
+    })
+
+    return response;
+}
+
+const getProject = async (target=undefined) => {
+  const searched = target ? target : config.get('inq').payload[1];
   const projects = config.get('projects');
 
   const promise = new Promise((resolve, reject) => {
@@ -75,6 +96,27 @@ const getProject = async (custom=undefined) => {
     })
     .catch((err) => {
       print(err, 'error', 'Error while getting project');
+      return;
+    });
+  
+  return response;
+}
+
+const getProjects = async () => {
+  const projects = config.get('projects');
+
+  const promise = new Promise((resolve, reject) => {
+    projects
+      ? resolve(projects)
+      : reject('Something went wrong.');
+  });
+
+  const response = await promise
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      print(err, 'error', 'Error while getting projects');
       return err;
     });
   
@@ -121,11 +163,40 @@ const setPath = async () => {
   return response;
 }
 
+const setCurrentProject = async (payload) => {
+  const promise = new Promise((resolve, reject) => {
+    config.delete('current_project');
+    config.set('current_project', payload);
+
+    const currentProject = config.get('current_project');
+
+    currentProject === payload
+      ? resolve(currentProject)
+      : reject('Couldn\'t set current_project')
+  });
+
+  const response = await promise
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      print(err, 'error', 'Error while setting current project')
+      return err;
+    })
+  
+    return response;
+}
+
 const updateInq = async (newInquiry) => {
   const promise = new Promise((resolve, reject) => {
     config.delete('inq');
     config.set('inq', newInquiry);
-    resolve('Inquiry set!');
+
+    const inq = config.get('inq');
+
+    inq
+      ? resolve('New Inquiry set!')
+      : reject('Could not set new inquiry')
   });
 
   const response = await promise
@@ -167,14 +238,14 @@ const addProject = async (newProject) => {
   const response = await promise
     .then((res) => {
       print(
-        'Overview:\n' + JSON.stringify(res), 
+        res,
         'success',
-        'New project \'' + res.name + '\' created:'
+        'New project \'' + res.name + '\' added:'
       );
       return res;
     })
     .catch((err) => {
-      print(err, 'error', 'Error while creating new project');
+      print(err, 'error', 'Error while adding new project');
       return;
     })
   
@@ -204,28 +275,176 @@ const clearProjects = async () => {
   return response;
 }
 
-// User funcitons
-const showProject = async (custom=undefined) => {
-  await getProject(custom)
-    .then((res) => {
-      print(JSON.stringify(res), 'success', 'Here\'s the project ' + custom + ':');
-    })
-    .catch((err) => {
+// showers
+const showProject = async (target=undefined) => {
+  const inq = await getInquiry();
+
+  if (inq.source.all || inq.source.a) {
+    await getProjects()
+      .then((res) => {
+        print(res, 'success', 'This is your project registry:');
+      })
+      .catch((err) => {
+        print(err, 'error');
+        return;
+      })
+    return;
+  }
+
+  if (target) {
+    await getProject(target)
+      .then((res) => {
+        print(res, 'success', 'This is the project ' + target + ':');
+      })
+      .catch((err) => {
+        print(err, 'error');
+        return;
+      })
+    return;
+  }
+
+  const currentProject = await getCurrentProject();
+
+  if (currentProject) {
+    await getProject(currentProject)
+      .then((res) => {
+          print(res, 'success', 'This is the currently running project');
+        return;
+      })
+  }
+}
+
+const showPath = async (target=undefined) => {
+  const inq = await getInquiry();
+
+  if (inq.source.default || inq.source.d) {
+    await getPath()
+      .then((res) => {
+        print(res, 'success', 'This is your default path:');
+      })
+      .catch((err) => {
+        print(err, 'error');
+        return;
+      })
+    return;
+  }
+
+  if (inq.source.all || inq.source.a) {
+    await getProjects()
+      .then((res) => {
+        const projectPaths = [];
+        res.forEach((project) => {
+          const elm = {
+            project: project.name,
+            path: project.path
+          }
+          projectPaths.push(elm);
+        })
+        print(projectPaths, 'success', 'These are all your paths in use:');
+      })
+      .catch((err) => {
+        print(err, 'error');
+        return;
+      })
+    return;
+  }
+
+  if (target) {
+    await getProject(target)
+      .then((res) => {
+        print(res.path, 'success', 'This is the path of ' + target);
+      })
+      .catch((err) => {
+        print(err, 'error');
+        return;
+      })
+    return;
+  }
+
+  const currentProject = await getCurrentProject();
+
+  if (currentProject) {
+    await getProject(currentProject)
+      .then((res) => {
+          print(res.path, 'success', 'This is the path of the currently running project');
+        return;
+      })
+  }
+}
+
+const showType = async (target) => {
+  const inq = await getInquiry();
+
+  if (inq.source.all || inq.source.a) {
+    await getProjects()
+      .then((res) => {
+        const projectTypes = [];
+        res.forEach((project) => {
+          const elm = {
+            project: project.name,
+            type: project.type
+          }
+          projectTypes.push(elm);
+        })
+        print(projectTypes, 'success', 'This is a list of all types of your projects:');
+      })
+      .catch((err) => {
+        print(err, 'error');
+        return;
+      })
+    return;
+  }
+
+  if (target) {
+    await getProject(target)
+      .then((res) => {
+        print(res.type, 'success', 'This is the path of ' + target);
+      })
+      .catch((err) => {
+        print(err, 'error');
+        return;
+      })
       return;
-    })
+  }
+
+  const currentProject = await getCurrentProject();
+
+  if (currentProject) {
+    await getProject(currentProject)
+      .then((res) => {
+          print(res.type, 'success', 'This is the type of the currently running project');
+        return;
+      })
+  }
 }
 
 exports.store = {
   config: config,
   updateInquiry: updateInq,
   inq: getInquiry,
-  path: {
-    set: setPath,
-    get: getPath
-  },
   project: getProject,
   add: addProject,
+  projects: getProjects,
+  set: {
+    path: setPath,
+  },
+  get: {
+    path: getPath
+  },
   clear: {
     projects: clearProjects
+  },
+  show: {
+    project: showProject,
+    path: showPath,
+    type: showType
+  },
+  isolated: {
+    set: {
+      currentProject: setCurrentProject
+    },
+    get: {
+      currentProject: getCurrentProject
+    }
   }
 }
