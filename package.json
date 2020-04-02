@@ -1,7 +1,8 @@
 {
   "name": "doho",
   "version": "0.0.4-fix",
-  "description": "Manage docker-compose stuff",
+  "description": "Manage docker-compose projects",
+  "keywords": ["project" "manage", "docker-compose", "cli"],
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
