@@ -140,7 +140,7 @@ const updateInq = async (newInquiry) => {
   return response;
 }
 
-const createProject = async (newProject) => {
+const addProject = async (newProject) => {
   const promise = new Promise((resolve, reject) => {
     const projects = config.get('projects');
     let duplicate;
@@ -204,16 +204,27 @@ const clearProjects = async () => {
   return response;
 }
 
+// User funcitons
+const showProject = async (custom=undefined) => {
+  await getProject(custom)
+    .then((res) => {
+      print(JSON.stringify(res), 'success', 'Here\'s the project ' + custom + ':');
+    })
+    .catch((err) => {
+      return;
+    })
+}
+
 exports.store = {
   config: config,
+  updateInquiry: updateInq,
   inq: getInquiry,
   path: {
     set: setPath,
     get: getPath
   },
   project: getProject,
-  updateInquiry: updateInq,
-  create: createProject,
+  add: addProject,
   clear: {
     projects: clearProjects
   }
