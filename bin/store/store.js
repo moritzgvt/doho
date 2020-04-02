@@ -227,9 +227,5 @@ exports.store = {
   create: createProject,
   clear: {
     projects: clearProjects
-  },
-  show: {
-    project: showProject
   }
-  
 }
