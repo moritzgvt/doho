@@ -8,19 +8,19 @@ const printToConsole = (message, type, title=undefined) => {
   switch (type) { 
     case 'error':
       console.log(
-        chalk.black.bgRed(('  ' + title + '  ' || '  Error!  ') + '\n\n'),
+        chalk.black.bgRed((title ? '  ' + title + '  ' : '  Error!  ') + '\n\n'),
         chalk.red(message)
       )
       break;
     case 'success':
       console.log(
-        chalk.black.bgGreen(('  ' + title + '  ' || '  Success!  ') + '\n\n'),
+        chalk.black.bgGreen((title ? '  ' + title + '  ' : '  Success!  ') + '\n\n'),
         chalk.green(message)
       )
       break;
     default:
       console.log(
-        chalk.black.bgYellow(('  ' + title + '  ' || '  Hello from doho!  ') + '\n\n'),
+        chalk.black.bgYellow((title ? '  ' + title + '  ' : '  Hello from doho!  ') + '\n\n'),
         chalk.yellow(message)
       )
       break;
