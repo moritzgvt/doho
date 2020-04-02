@@ -1,6 +1,6 @@
 {
   "name": "doho",
-  "version": "0.0.4",
+  "version": "0.0.4-fix",
   "description": "Manage docker-compose stuff",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,11 @@
   "bin": {
     "doho": "index.js"
   },
-  "author": "Moritz Gut <hello@moritzgut.de>",
+  "author": {
+    "name": "Moritz Gut",
+    "email": "hello@moritzgut.de",
+    "url": "https://moritzgut.de"
+  },
   "license": "MIT",
   "dependencies": {
     "chalk": "^3.0.0",
