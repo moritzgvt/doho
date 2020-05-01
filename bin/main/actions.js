@@ -16,7 +16,7 @@ const add = async () => {
   const inq = await store.inq();
   const path = inq.payload[3]
     ? inq.payload[3]
-    : await store.path.get();
+    : await store.get.path();
 
   if (!path) { return; }
 
