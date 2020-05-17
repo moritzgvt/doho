@@ -1,6 +1,6 @@
 {
   "name": "doho",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Manage docker-compose projects",
   "keywords": [
     "project",
@@ -17,7 +17,7 @@
     "url": "https://github.com/moritzgvt/doho.git"
   },
   "bin": {
-    "doho": "bin/index.js"
+    "doho": "./bin/index.js"
   },
   "author": {
     "name": "Moritz Gut",
