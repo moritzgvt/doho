@@ -1,6 +1,6 @@
 {
   "name": "doho",
-  "version": "0.0.6-fix",
+  "version": "0.0.7",
   "description": "Manage docker-compose projects",
   "keywords": [
     "project",
@@ -8,7 +8,7 @@
     "docker-compose",
     "cli"
   ],
-  "main": "bin/index.js",
+  "main": "doho",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,7 +17,7 @@
     "url": "https://github.com/moritzgvt/doho.git"
   },
   "bin": {
-    "doho": "index.js"
+    "doho": "bin/index.js"
   },
   "author": {
     "name": "Moritz Gut",
