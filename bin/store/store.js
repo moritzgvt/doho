@@ -253,6 +253,50 @@ const addProject = async (newProject) => {
 }
 
 // Clearer
+const clearProject = async () => {
+  const inq = await config.get('inq');
+  const projects = await config.get('projects');
+  let projectExist = false;
+  let newProjects = [];
+
+  projects.forEach(project => {
+    project.name !== inq.payload[2]
+      ? newProjects.push(project)
+      : projectExist = true;
+  })
+
+  const promise = new Promise((resolve, reject) => {
+
+    if (!Object.keys(projects).length) {
+      reject('There are no projects!');
+      return;
+    }
+
+    if (projectExist) {
+      config.delete('projects');
+      config.set('projects', newProjects);
+      resolve('Project ' + inq.payload[2] + ' cleared!');
+      return;
+    } else {
+      reject('Could not find project with the name ' + inq.payload[2]);
+      return;
+    }
+  });
+
+  const response = await promise
+    .then((res) => {
+      print(res, 'success');
+      return res;
+    })
+    .catch((err) => {
+      print(err, 'error', 'Error while clearing project ' + inq.payload[2]);
+      return;
+    });
+  
+  return response;
+}
+
+
 const clearProjects = async () => {
   const promise = new Promise((resolve, reject) => {
     const newProjects = [];
@@ -432,6 +476,7 @@ exports.store = {
     path: getPath
   },
   clear: {
+    project: clearProject,
     projects: clearProjects
   },
   show: {
